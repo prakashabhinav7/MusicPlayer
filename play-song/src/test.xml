@@ -1,0 +1,27 @@
+<playlist>
+    <song title= "Dangerous">
+        <title>Dangerous</title>
+        <from>/Users/dipit/Documents/MusicPlayer/Songs_DB/Dangerous.wav</from>
+        <body>Dummy Data</body>
+    </song>
+    <song title= "Numb1">
+        <title>Numb</title>
+        <from>/Users/dipit/Documents/MusicPlayer/Songs_DB/Numb.wav</from>
+        <body>Dummy Data</body>
+    </song>
+    <song title="ShapeOfYou">
+        <title>ShapeOfYou</title>
+        <from>/Users/dipit/Documents/MusicPlayer/Songs_DB/ShapeOfYou.wav</from>
+        <body>Dummy Data</body>
+    </song>
+    <song title="Closer">
+        <title>Closer</title>
+        <from>/Users/dipit/Documents/MusicPlayer/Songs_DB/Closer.wav</from>
+        <body>Dummy Data</body>
+    </song>
+    <song title="Heathens">
+        <title>Heathens</title>
+        <from>/Users/dipit/Documents/MusicPlayer/Songs_DB/Heathens.wav</from>
+        <body>Dummy Data</body>
+    </song>
+</playlist>
