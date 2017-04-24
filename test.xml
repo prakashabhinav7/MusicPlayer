@@ -1,29 +1,27 @@
-<note>
-<from>/Users/Abhinav/Downloads/Dangerous.mp3</from>
-<heading>Dangerous</heading>
-<body>Dummy Data</body>
-</note>
-
-<note>
-<from>/Users/Abhinav/Downloads/Rockabye.mp3</from>
-<heading>Rockabye</heading>
-<body>Dummy Data</body>
-</note>
-
-<note>
-<from>/Users/Abhinav/Downloads/ShapeOfYou.mp3</from>
-<heading>ShapeOfYou</heading>
-<body>Dummy Data</body>
-</note>
-
-<note>
-<from>/Users/Abhinav/Downloads/Closer.mp3</from>
-<heading>Closer</heading>
-<body>Dummy Data</body>
-</note>
-
-<note>
-<from>/Users/Abhinav/Downloads/Heathens.mp3</from>
-<heading>Heathens</heading>
-<body>Dummy Data</body>
-</note>
+<playlist>
+    <song>
+        <title>Dangerous</title>
+        <from>/Users/Abhinav/Downloads/Dangerous.mp3</from>
+        <body>Dummy Data</body>
+    </song>
+    <song>
+        <title>Rockabye</title>
+        <from>/Users/Abhinav/Downloads/Rockabye.mp3</from>
+        <body>Dummy Data</body>
+    </song>
+    <song>
+        <title>ShapeOfYou</title>
+        <from>/Users/Abhinav/Downloads/ShapeOfYou.mp3</from>
+        <body>Dummy Data</body>
+    </song>
+    <song>
+        <title>Closer</title>
+        <from>/Users/Abhinav/Downloads/Closer.mp3</from>
+        <body>Dummy Data</body>
+    </song>
+    <song>
+        <title>Heathens</title>
+        <from>/Users/Abhinav/Downloads/Heathens.mp3</from>
+        <body>Dummy Data</body>
+    </song>
+</playlist>
