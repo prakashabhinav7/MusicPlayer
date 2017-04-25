@@ -2,26 +2,38 @@
     <song title= "Dangerous">
         <title>Dangerous</title>
         <from>/Users/dipit/Documents/MusicPlayer/Songs_DB/Dangerous.wav</from>
-        <body>Dummy Data</body>
+        <Album>Listen</Album>
+        <Artist>David Guetta</Artist>
+        <Year>2014</Year>
     </song>
-    <song title= "Numb1">
+    <song title= "Numb">
         <title>Numb</title>
         <from>/Users/dipit/Documents/MusicPlayer/Songs_DB/Numb.wav</from>
-        <body>Dummy Data</body>
+        <Album>Meteora</Album>
+        <Artist>Linkin Park</Artist>
+        <Year>2003</Year>
     </song>
     <song title="ShapeOfYou">
         <title>ShapeOfYou</title>
         <from>/Users/dipit/Documents/MusicPlayer/Songs_DB/ShapeOfYou.wav</from>
-        <body>Dummy Data</body>
+        <Album>Divide</Album>
+        <Artist>Ed Shareen</Artist>
+        <Year>2017</Year>
+
     </song>
     <song title="Closer">
         <title>Closer</title>
         <from>/Users/dipit/Documents/MusicPlayer/Songs_DB/Closer.wav</from>
-        <body>Dummy Data</body>
+        <Album>Memories..Do Not Open</Album>
+        <Artist>Chainsmoker</Artist>
+        <Year>2016</Year>
+
     </song>
     <song title="Heathens">
         <title>Heathens</title>
         <from>/Users/dipit/Documents/MusicPlayer/Songs_DB/Heathens.wav</from>
-        <body>Dummy Data</body>
+        <Album>Suicide Squad</Album>
+        <Artist>21 Pilots</Artist>
+        <Year>2016</Year>
     </song>
 </playlist>
