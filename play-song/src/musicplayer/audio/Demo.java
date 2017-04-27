@@ -1,4 +1,6 @@
 package musicplayer.audio;
+import java.util.Random;
+
 import java.applet.Applet;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
@@ -8,7 +10,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
-
+import javax.swing.*;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -19,6 +21,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.*;
+import java.util.*;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -65,21 +70,16 @@ public class Demo {
     JPanel box = new JPanel();
     JPanel Hbox = new JPanel();
 
+
   
-
-//    JLabel label1 = new JLabel("", SwingConstants.LEFT); 
-//    JLabel label2 = new JLabel("", JLabel.CENTER); 
-//    JLabel label3 = new JLabel("", JLabel.CENTER);
-//    JLabel label4 = new JLabel("", JLabel.CENTER);
-//    JLabel label5 = new JLabel("", JLabel.CENTER);
-//    JLabel label6 = new JLabel("", JLabel.CENTER);
-
-   
-//    AutoCompleteDecorator decorator;
     JComboBox combobox;
+    AutoCompleteDecorator decorator;
+
 
     public Demo() throws ParserConfigurationException, SAXException, IOException,FileNotFoundException, XPathExpressionException, LineUnavailableException {
     	
+//    	AutoCompleteDecorator.decorate(list, jtf, ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
+
     	URL url = getClass().getResource("/Users/dipit/Documents/java/play-song/resource");
 		Clip clip = AudioSystem.getClip();
 
@@ -99,6 +99,8 @@ public class Demo {
 
         
         combobox = new JComboBox(song_titles);
+        AutoCompleteDecorator.decorate(combobox);
+
 
         frame.setSize(400,400);
         frame.setLocationRelativeTo(null);
@@ -106,23 +108,9 @@ public class Demo {
         frame.setLayout(new FlowLayout());
         
 
-
-
-//        panel.setLayout(null);
-
-
-//        statusLabel.setSize(400,200);
-//        frame.add(statusLabel);
-
-
-//		JLabel statuslabel = new JLabel("aaa");
-//	    panel.add(statuslabel);
-//	    Dimension size = statuslabel.getPreferredSize();
-//	    statuslabel.setBounds(100, 100, size.width/10, size.height/10);
 		
-		
-		
-//        frame.getContentPane().setBackground( Color.white );
+        frame.getContentPane().setBackground( Color.white );
+        box.setBackground(new Color(255,255,255,1));
         
         doc.getDocumentElement().normalize();
         System.out.println("Root element :" 
@@ -161,48 +149,64 @@ public class Demo {
 				
 		        String x = '\'' +  String.valueOf(combobox.getSelectedItem())+'\'' ;
 
+
 		        
 		        NodeList nodeList;
 				try {
-					;
+					
 					nodeList = (NodeList)xpath.compile("/playlist/song[@title="+x+"]").evaluate(doc, XPathConstants.NODESET);
 					System.out.println(nodeList.item(0).getTextContent());
 					String songPath=nodeList.item(0).getTextContent().split("\n")[2].replaceAll(" ", "");
 					String Album = nodeList.item(0).getTextContent().split("\n")[3].replaceAll(" ", "");
 					String Artist =  nodeList.item(0).getTextContent().split("\n")[4].replaceAll(" ", "");
 					String year = nodeList.item(0).getTextContent().split("\n")[5].replaceAll(" ", "");
+					String cover = nodeList.item(0).getTextContent().split("\n")[6].replaceAll(" ", "");
+					
+					String id =nodeList.item(0).getTextContent().split("\n")[7].replaceAll(" ", "");
+					
+
+
+					
 					
 					clip.close();
 					
 					clip.open(AudioSystem.getAudioInputStream(new File(songPath)));
 					
 			        clip.start();
+			        
+			        
 			        JLabel artist = new JLabel(Artist);
 			        JLabel album = new JLabel(Album);
 			        JLabel Year = new JLabel(year);
-//			        JLabel nl1 = new JLabel("<html><br></html>");
+			        JLabel nl1 = new JLabel("<html><br></html>");
+			        
 
 			        JLabel a1 = new JLabel("null");
 			        JLabel a2 = new JLabel("null");
 			        JLabel a3 = new JLabel("null");
 			        JLabel image= new JLabel();
-			        ImageIcon imageIcon = new ImageIcon(new ImageIcon("/Users/dipit/Desktop/closer.jpg").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+			        ImageIcon imageIcon = new ImageIcon(new ImageIcon(cover).getImage().getScaledInstance(140, 140, Image.SCALE_DEFAULT));
 
 			        image.setIcon(imageIcon);
 			        
 			        //			        Dimension maximumSize = new Dimension((30,30));
 //					image.size
-			        a1.setText("<html>Artist:</html>");
-			        a2.setText("<html><br>Album:</html>");
-			        a3.setText("<html><br>Year::</html>");
+			        a1.setText("<html><b><font color='black'>Artist</font></b></html>");
+			
+			        a2.setText("<html><br><b><font color='black'>Album:</font></b></html>");
+			        a3.setText("<html><br><b><font color='black'>Year:</font></b></html>");
 			        Hbox.removeAll();
 			        Hbox.setLayout(new BoxLayout(Hbox, BoxLayout.X_AXIS));
+			        Hbox.add(nl1);
 			        Hbox.add(image);
 
 			        
 			        box.removeAll();
 			        
 			        box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
+			        box.add(nl1);
+			       
+			    
 			        box.add(a1);
 			        box.add(artist);
 //			        box.add(nl1);
@@ -310,6 +314,111 @@ public class Demo {
       				
       				clip.stop();
       				clip.close();
+      				
+      				String x = '\'' +  String.valueOf(combobox.getSelectedItem())+'\'' ;
+
+    		        
+    		        NodeList nodeList, nodeList1, nodeList2;
+    				
+    					try {
+
+							nodeList = (NodeList)xpath.compile("/playlist/song[@title="+x+"]").evaluate(doc, XPathConstants.NODESET);
+
+//							System.out.println(nodeList.item(0).getTextContent());
+
+	    					String songPath=nodeList.item(0).getTextContent().split("\n")[2].replaceAll(" ", "");
+	    					String id =nodeList.item(0).getTextContent().split("\n")[7].replaceAll(" ", "");
+
+	    					int new_id=Integer.parseInt(id)+1;
+	    					System.out.println(new_id);
+	    					String super_id=String.valueOf(new_id);
+	    					
+							nodeList2 = (NodeList)xpath.compile("/playlist/song["+new_id+"]").evaluate(doc, XPathConstants.NODESET);
+	    					System.out.println(nodeList2.item(0).getTextContent());
+
+							String new_path= nodeList2.item(0).getTextContent().split("\n")[2].replaceAll(" ", "");
+							
+	    					
+	    					String Title = nodeList2.item(0).getTextContent().split("\n")[1].replaceAll(" ", "");
+
+	    					
+	    					String Album = nodeList2.item(0).getTextContent().split("\n")[3].replaceAll(" ", "");
+	    					String Artist =  nodeList2.item(0).getTextContent().split("\n")[4].replaceAll(" ", "");
+	    					String year = nodeList2.item(0).getTextContent().split("\n")[5].replaceAll(" ", "");
+	    					String cover = nodeList2.item(0).getTextContent().split("\n")[6].replaceAll(" ", "");
+	    					
+
+	    			    					
+	    					
+	    					
+	    					clip.open(AudioSystem.getAudioInputStream(new File(new_path)));
+	    					
+	    					combobox.setSelectedItem(Title);
+	    					
+	    			        clip.start();
+
+	    			        JLabel artist = new JLabel(Artist);
+	    			        JLabel album = new JLabel(Album);
+	    			        JLabel Year = new JLabel(year);
+	    			        JLabel nl1 = new JLabel("<html><br></html>");
+	    			        
+
+	    			        JLabel a1 = new JLabel("null");
+	    			        JLabel a2 = new JLabel("null");
+	    			        JLabel a3 = new JLabel("null");
+	    			        JLabel image= new JLabel();
+	    			        ImageIcon imageIcon = new ImageIcon(new ImageIcon(cover).getImage().getScaledInstance(140, 140, Image.SCALE_DEFAULT));
+
+	    			        image.setIcon(imageIcon);
+	    			        
+	    			        //			        Dimension maximumSize = new Dimension((30,30));
+//	    					image.size
+	    			        a1.setText("<html><b><font color='black'>Artist</font></b></html>");
+	    			
+	    			        a2.setText("<html><br><b><font color='black'>Album:</font></b></html>");
+	    			        a3.setText("<html><br><b><font color='black'>Year:</font></b></html>");
+	    			        Hbox.removeAll();
+	    			        Hbox.setLayout(new BoxLayout(Hbox, BoxLayout.X_AXIS));
+	    			        Hbox.add(nl1);
+	    			        Hbox.add(image);
+
+	    			        
+	    			        box.removeAll();
+	    			        
+	    			        box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
+	    			        box.add(nl1);
+	    			       
+	    			        box.add(a1);
+	    			        box.add(artist);
+//	    			        box.add(nl1);
+	    			        
+	    			        box.add(a2);
+	    			        box.add(album);
+	    			        
+	    			        
+	    			        box.add(a3);
+	    			        box.add(Year);
+	    			        
+	    			        
+	    			        
+	    			        frame.add(box);
+	    			        frame.add(Hbox);
+	    			        frame.setVisible(true);
+
+	    			        
+	    			        
+						} catch (XPathExpressionException | LineUnavailableException | IOException | UnsupportedAudioFileException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+    					
+      				
+      			
+      				
+      				
+      				
+      				
+      				
       			}});
              	
         frame.setSize(500,500);     
@@ -320,10 +429,270 @@ public class Demo {
         frame.setVisible(true);
 //        label.setDefaultLocale(null);        
 
+        
+        
+        
+        
+        JButton b5 = new JButton();
+        b5.addActionListener(new ActionListener() {
+        	  public void actionPerformed(ActionEvent evt) {
+          		  }
+
+      			@Override
+      			public void actionPerformed(java.awt.event.ActionEvent e) {		
+      				
+      				clip.stop();
+      				clip.close();
+      				
+      				String x = '\'' +  String.valueOf(combobox.getSelectedItem())+'\'' ;
+
+    		        
+    		        NodeList nodeList, nodeList1;
+    				
+    					try {
+							nodeList = (NodeList)xpath.compile("/playlist/song[@title="+x+"]").evaluate(doc, XPathConstants.NODESET);
+
+//							System.out.println(nodeList.item(0).getTextContent());
+	    					String songPath=nodeList.item(0).getTextContent().split("\n")[2].replaceAll(" ", "");
+	    					String id =nodeList.item(0).getTextContent().split("\n")[7].replaceAll(" ", "");
+	    					int new_id=Integer.parseInt(id)-1;
+	    					String super_id=String.valueOf(new_id);
+							nodeList1 = (NodeList)xpath.compile("/playlist/song["+new_id+"]").evaluate(doc, XPathConstants.NODESET);
+							
+							String new_path= nodeList1.item(0).getTextContent().split("\n")[2].replaceAll(" ", "");
+							
+	    					
+	    					String Title = nodeList1.item(0).getTextContent().split("\n")[1].replaceAll(" ", "");
+
+	    					
+	    					String Album = nodeList1.item(0).getTextContent().split("\n")[3].replaceAll(" ", "");
+	    					String Artist =  nodeList1.item(0).getTextContent().split("\n")[4].replaceAll(" ", "");
+	    					String year = nodeList1.item(0).getTextContent().split("\n")[5].replaceAll(" ", "");
+	    					String cover = nodeList1.item(0).getTextContent().split("\n")[6].replaceAll(" ", "");
+	    					
+
+	    					
+//	    					System.out.println(new_id);
+	    					
+	    					
+	    					
+	    					clip.open(AudioSystem.getAudioInputStream(new File(new_path)));
+	    					if(new_id==5)
+	    					{
+	    						new_id=1;
+	    					}
+	    					combobox.setSelectedItem(Title);
+	    					
+	    			        clip.start();
+
+	    			        JLabel artist = new JLabel(Artist);
+	    			        JLabel album = new JLabel(Album);
+	    			        JLabel Year = new JLabel(year);
+	    			        JLabel nl1 = new JLabel("<html><br></html>");
+	    			        
+
+	    			        JLabel a1 = new JLabel("null");
+	    			        JLabel a2 = new JLabel("null");
+	    			        JLabel a3 = new JLabel("null");
+	    			        JLabel image= new JLabel();
+	    			        ImageIcon imageIcon = new ImageIcon(new ImageIcon(cover).getImage().getScaledInstance(140, 140, Image.SCALE_DEFAULT));
+
+	    			        image.setIcon(imageIcon);
+	    			        
+	    			        //			        Dimension maximumSize = new Dimension((30,30));
+//	    					image.size
+	    			        a1.setText("<html><b><font color='black'>Artist</font></b></html>");
+	    			
+	    			        a2.setText("<html><br><b><font color='black'>Album:</font></b></html>");
+	    			        a3.setText("<html><br><b><font color='black'>Year:</font></b></html>");
+	    			        Hbox.removeAll();
+	    			        Hbox.setLayout(new BoxLayout(Hbox, BoxLayout.X_AXIS));
+	    			        Hbox.add(nl1);
+	    			        Hbox.add(image);
+
+	    			        
+	    			        box.removeAll();
+	    			        
+	    			        box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
+	    			        box.add(nl1);
+	    			       
+	    			        box.add(a1);
+	    			        box.add(artist);
+//	    			        box.add(nl1);
+	    			        
+	    			        box.add(a2);
+	    			        box.add(album);
+	    			        
+	    			        
+	    			        box.add(a3);
+	    			        box.add(Year);
+	    			        
+	    			        
+	    			        
+	    			        frame.add(box);
+	    			        frame.add(Hbox);
+	    			        frame.setVisible(true);
+
+	    			        
+	    			        
+						} catch (XPathExpressionException | LineUnavailableException | IOException | UnsupportedAudioFileException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+    					
+      				
+      			
+      				
+      				
+      				
+      				
+      				
+      			}});
+             	
+        frame.setSize(500,500);     
+        b5.setSize(400,400);
+        b5.setVisible(true);
+        b5.setText("Prev");
+        frame.add(b5);
+        frame.setVisible(true);
+//        label.setDefaultLocale(null);    
+       
+        
+        JButton b6 = new JButton();
+        b6.addActionListener(new ActionListener() {
+        	  public void actionPerformed(ActionEvent evt) {
+          		  }
+
+      			@Override
+      			public void actionPerformed(java.awt.event.ActionEvent e) {		
+      				
+      				clip.stop();
+      				clip.close();
+      				
+      				String x = '\'' +  String.valueOf(combobox.getSelectedItem())+'\'' ;
+
+    		        
+    		        NodeList nodeList, nodeList1;
+    				
+    					try {
+							nodeList = (NodeList)xpath.compile("/playlist/song[@title="+x+"]").evaluate(doc, XPathConstants.NODESET);
+
+//							System.out.println(nodeList.item(0).getTextContent());
+	    					String songPath=nodeList.item(0).getTextContent().split("\n")[2].replaceAll(" ", "");
+	    					String id =nodeList.item(0).getTextContent().split("\n")[7].replaceAll(" ", "");
+	    					
+	    					Random rand = new Random();
+
+	    					int  n = rand.nextInt(15) + 1;
+
+//	    					int new_id=Integer.parseInt(id);
+	    					
+//	    					String super_id=String.valueOf(new_id);
+							nodeList1 = (NodeList)xpath.compile("/playlist/song["+n+"]").evaluate(doc, XPathConstants.NODESET);
+							
+							String new_path= nodeList1.item(0).getTextContent().split("\n")[2].replaceAll(" ", "");
+							
+	    					
+	    					String Title = nodeList1.item(0).getTextContent().split("\n")[1].replaceAll(" ", "");
+
+	    					
+	    					String Album = nodeList1.item(0).getTextContent().split("\n")[3].replaceAll(" ", "");
+	    					String Artist =  nodeList1.item(0).getTextContent().split("\n")[4].replaceAll(" ", "");
+	    					String year = nodeList1.item(0).getTextContent().split("\n")[5].replaceAll(" ", "");
+	    					String cover = nodeList1.item(0).getTextContent().split("\n")[6].replaceAll(" ", "");
+	    					
+
+	    					
+//	    					System.out.println(new_id);
+	    					
+	    					
+	    					
+	    					clip.open(AudioSystem.getAudioInputStream(new File(new_path)));
+	    					
+	    					combobox.setSelectedItem(Title);
+	    					
+	    			        clip.start();
+
+	    			        JLabel artist = new JLabel(Artist);
+	    			        JLabel album = new JLabel(Album);
+	    			        JLabel Year = new JLabel(year);
+	    			        JLabel nl1 = new JLabel("<html><br></html>");
+	    			        
+
+	    			        JLabel a1 = new JLabel("null");
+	    			        JLabel a2 = new JLabel("null");
+	    			        JLabel a3 = new JLabel("null");
+	    			        JLabel image= new JLabel();
+	    			        ImageIcon imageIcon = new ImageIcon(new ImageIcon(cover).getImage().getScaledInstance(140, 140, Image.SCALE_DEFAULT));
+
+	    			        image.setIcon(imageIcon);
+	    			        
+	    			        //			        Dimension maximumSize = new Dimension((30,30));
+//	    					image.size
+	    			        a1.setText("<html><b><font color='black'>Artist</font></b></html>");
+	    			
+	    			        a2.setText("<html><br><b><font color='black'>Album:</font></b></html>");
+	    			        a3.setText("<html><br><b><font color='black'>Year:</font></b></html>");
+	    			        Hbox.removeAll();
+	    			        Hbox.setLayout(new BoxLayout(Hbox, BoxLayout.X_AXIS));
+	    			        Hbox.add(nl1);
+	    			        Hbox.add(image);
+
+	    			        
+	    			        box.removeAll();
+	    			        
+	    			        box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
+	    			        box.add(nl1);
+	    			       
+	    			        box.add(a1);
+	    			        box.add(artist);
+//	    			        box.add(nl1);
+	    			        
+	    			        box.add(a2);
+	    			        box.add(album);
+	    			        
+	    			        
+	    			        box.add(a3);
+	    			        box.add(Year);
+	    			        
+	    			        
+	    			        
+	    			        frame.add(box);
+	    			        frame.add(Hbox);
+	    			        frame.setVisible(true);
+
+	    			        
+	    			        
+						} catch (XPathExpressionException | LineUnavailableException | IOException | UnsupportedAudioFileException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+    					
+      				
+      			
+      				
+      				
+      				
+      				
+      				
+      			}});
+             	
+        frame.setSize(500,500);     
+        b6.setSize(400,400);
+        b6.setVisible(true);
+        b6.setText("Shuffle");
+        frame.add(b6);
+        frame.setVisible(true);
+//        label.setDefaultLocale(null);    
        
         
         
         }
+    
+        
+        
+        
+    
     
     
     
